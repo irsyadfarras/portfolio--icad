@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Irsyad Farras — Full Stack Developer & Cyber Security</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0a0e1a;
+    --bg-secondary: #0f1525;
+    --bg-card: rgba(20, 30, 55, 0.5);
+    --blue: #4a7cf7;
+    --blue-glow: rgba(74, 124, 247, 0.25);
+    --purple: #8b5cf6;
+    --purple-glow: rgba(139, 92, 246, 0.2);
+    --cyan: #22d3ee;
+    --cyan-dim: rgba(34, 211, 238, 0.1);
+    --text-primary: #e8edf5;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border: rgba(74, 124, 247, 0.12);
+    --border-glow: rgba(74, 124, 247, 0.2);
+    --shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+    --radius: 20px;
+    --radius-sm: 12px;
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Sora', sans-serif;
+    --body: 'Inter', sans-serif;
+    --phone-width: 480px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--body);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px 12px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 600px 500px at 20% 10%, rgba(74, 124, 247, 0.06), transparent 60%),
+      radial-gradient(ellipse 500px 400px at 80% 30%, rgba(139, 92, 246, 0.05), transparent 55%),
+      radial-gradient(ellipse 700px 600px at 50% 100%, rgba(34, 211, 238, 0.03), transparent 60%),
+      var(--bg-primary);
+    z-index: -2;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.008) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.008) 1px, transparent 1px);
+    background-size: 48px 48px;
+    z-index: -1;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black, transparent 75%);
+  }
+
+  ::selection { background: var(--blue); color: #fff; }
+
+  /* ===== PHONE MOCKUP CONTAINER ===== */
+  .phone-container {
+    width: 100%;
+    max-width: var(--phone-width);
+    margin: 0 auto;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow), 0 0 80px rgba(74, 124, 247, 0.04);
+    overflow: hidden;
+    position: relative;
+    transition: border-radius 0.3s;
+  }
+
+  /* ===== STATUS BAR ===== */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
+    background: transparent;
+  }
+  .status-bar .time { font-weight: 600; color: var(--text-primary); }
+  .status-icons { display: flex; gap: 6px; align-items: center; }
+  .status-icons svg { width: 16px; height: 16px; fill: var(--text-secondary); }
+  .battery {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .battery-bar {
+    width: 22px;
+    height: 10px;
+    border: 1.5px solid var(--text-secondary);
+    border-radius: 3px;
+    padding: 1px;
+    position: relative;
+  }
+  .battery-bar::after {
+    content: "";
+    position: absolute;
+    right: -4px;
+    top: 2px;
+    width: 2px;
+    height: 6px;
+    background: var(--text-secondary);
+    border-radius: 0 2px 2px 0;
+  }
+  .battery-bar .fill {
+    height: 100%;
+    width: 78%;
+    background: var(--cyan);
+    border-radius: 1px;
+  }
+  .signal-bars { display: flex; gap: 1.5px; align-items: flex-end; }
+  .signal-bars span {
+    display: block;
+    width: 3px;
+    background: var(--text-secondary);
+    border-radius: 1px;
+  }
+  .signal-bars span:nth-child(1) { height: 6px; }
+  .signal-bars span:nth-child(2) { height: 9px; }
+  .signal-bars span:nth-child(3) { height: 12px; }
+  .signal-bars span:nth-child(4) { height: 15px; }
+
+  /* ===== NOTCH ===== */
+  .notch {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 8px;
+  }
+  .notch .pill {
+    width: 110px;
+    height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 999px;
+  }
+
+  /* ===== SCROLLABLE CONTENT ===== */
+  .phone-content {
+    padding: 0 20px 100px;
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--blue-glow) transparent;
+  }
+  .phone-content::-webkit-scrollbar { width: 3px; }
+  .phone-content::-webkit-scrollbar-track { background: transparent; }
+  .phone-content::-webkit-scrollbar-thumb { background: var(--blue-glow); border-radius: 999px; }
+
+  /* ===== SECTION STYLES ===== */
+  .section {
+    padding: 18px 0 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-child { border-bottom: none; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .eyebrow::before { content: "◆"; font-size: 7px; }
+
+  .sec-title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    margin-bottom: 2px;
+  }
+  .sec-title .accent {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .sec-sub {
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+
+  /* ===== PROFILE CARD ===== */
+  .profile-card {
+    text-align: center;
+    padding: 6px 0 2px;
+  }
+  .avatar {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    margin: 0 auto 12px;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    padding: 2px;
+    box-shadow: 0 0 40px var(--blue-glow);
+  }
+  .avatar .inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--blue);
+  }
+  .profile-card h1 {
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+  .profile-card h1 .highlight {
+    background: linear-gradient(135deg, var(--blue), var(--cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .profile-card .role {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+  .profile-card .role .dot {
+    color: var(--cyan);
+    display: inline-block;
+    animation: pulse-dot 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+  .profile-card .bio {
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    line-height: 1.7;
+    margin-top: 12px;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 14px;
+  }
+  .chip {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: var(--cyan-dim);
+    border: 1px solid rgba(34, 211, 238, 0.1);
+    color: var(--cyan);
+    font-family: var(--mono);
+  }
+
+  /* ===== SOCIAL ROW ===== */
+  .social-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .social-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+  .social-btn:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px var(--blue-glow);
+  }
+  .social-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+  /* ===== CTA BUTTONS ===== */
+  .cta-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.25s;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-family: var(--body);
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: #fff;
+    box-shadow: 0 4px 24px var(--blue-glow);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--blue-glow);
+  }
+  .btn-ghost {
+    background: rgba(255,255,255,0.03);
+    border-color: var(--border);
+    color: var(--text-secondary);
+  }
+  .btn-ghost:hover {
+    border-color: var(--blue);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+  }
+
+  /* ===== BADGES (seperti di gambar) ===== */
+  .badge-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .badge-pill {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.02);
+  }
+  .badge-pill.live {
+    color: var(--cyan);
+    border-color: rgba(34, 211, 238, 0.15);
+  }
+  .badge-pill.live::before {
+    content: "● ";
+    font-size: 8px;
+    color: var(--cyan);
+  }
+
+  /* ===== CONSOLE CARD (seperti gambar) ===== */
+  .console-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    margin-top: 14px;
+  }
+  .console-top {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .console-top .online {
+    color: var(--cyan);
+  }
+  .console-top .online::before {
+    content: "● ";
+    font-size: 8px;
+  }
+  .console-screen {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 2;
+  }
+  .console-screen .dim { color: var(--text-muted); }
+  .console-screen .ok { color: var(--cyan); }
+  .bar-mini {
+    height: 3px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.05);
+    overflow: hidden;
+    margin-top: 4px;
+    width: 100%;
+  }
+  .bar-mini i {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--cyan));
+  }
+  .console-footer {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .console-mini {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.02);
+  }
+  .console-mini .k {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: var(--mono);
+  }
+  .console-mini .v {
+    font-size: 14px;
+    color: var(--cyan);
+    font-weight: 600;
+    font-family: var(--mono);
+    margin-top: 2px;
+  }
+
+  /* ===== CORE COMPETENCIES ===== */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .comp-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 12px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .comp-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(74, 124, 247, 0.06);
+  }
+  .comp-card .icon { font-size: 22px; margin-bottom: 4px; }
+  .comp-card .label { font-size: 13px; font-weight: 600; }
+  .comp-card .desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ===== PROJECT CARDS ===== */
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    transition: all 0.3s;
+  }
+  .project-card:hover {
+    border-color: var(--blue);
+    transform: translateX(4px);
+  }
+  .project-card .tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--cyan);
+    background: var(--cyan-dim);
+    padding: 2px 10px;
+    border-radius: 999px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .project-card .tag.security { color: var(--purple); background: rgba(139, 92, 246, 0.1); }
+  .project-card h4 { font-size: 15px; font-weight: 700; }
+  .project-card p { font-size: 12.5px; color: var(--text-secondary); margin-top: 4px; line-height: 1.5; }
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+  }
+  .project-stack span {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    padding: 2px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-muted);
+  }
+  .project-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--blue);
+    cursor: pointer;
+  }
+
+  /* ===== CERTIFICATES dengan UPLOAD FOTO ===== */
+  .cert-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .cert-card {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    transition: all 0.3s;
+  }
+  .cert-card:hover { border-color: var(--purple); }
+  .cert-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(139, 92, 246, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--purple);
+    flex-shrink: 0;
+    font-size: 18px;
+    overflow: hidden;
+  }
+  .cert-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .cert-card h4 { font-size: 14px; font-weight: 700; }
+  .cert-card .issuer { font-size: 11px; color: var(--text-muted); }
+  .cert-card .year {
+    font-size: 10px;
+    color: var(--blue);
+    font-family: var(--mono);
+    margin-top: 2px;
+  }
+  .cert-upload-area {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    text-align: center;
+    margin-top: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: rgba(255,255,255,0.01);
+  }
+  .cert-upload-area:hover {
+    border-color: var(--blue);
+    background: rgba(74, 124, 247, 0.04);
+  }
+  .cert-upload-area .icon { font-size: 28px; margin-bottom: 6px; }
+  .cert-upload-area p { font-size: 12px; color: var(--text-muted); }
+  .cert-upload-area input[type="file"] { display: none; }
+
+  /* ===== TECH STACK ===== */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .stack-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 8px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .stack-card:hover { border-color: var(--cyan); transform: translateY(-2px); }
+  .stack-card .ic { font-size: 22px; }
+  .stack-card .nm { font-size: 12px; font-weight: 600; margin-top: 4px; }
+  .stack-card .lv { font-size: 9.5px; color: var(--text-muted); font-family: var(--mono); }
+
+  .stack-group-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 16px 0 6px;
+  }
+
+  /* ===== CONTACT ===== */
+  .contact-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    margin-top: 12px;
+  }
+  .contact-row {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-row .ic {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: rgba(74, 124, 247, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
+    flex-shrink: 0;
+    font-size: 16px;
+  }
+  .contact-row .lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .contact-row .val { font-size: 13px; font-weight: 500; }
+
+  .status-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan);
+    animation: pulse-dot 1.6s ease-in-out infinite;
+    margin-right: 6px;
+  }
+  .status-text {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-family: var(--mono);
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* ===== BOTTOM NAV ===== */
+  .bottom-nav {
+    position: sticky;
+    bottom: 0;
+    background: rgba(15, 21, 37, 0.92);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+    padding: 6px 12px 10px;
+    margin: 0 -20px;
+    border-radius: 0 0 var(--radius) var(--radius);
+  }
+  .bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    color: var(--text-muted);
+    font-size: 9px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.25s;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-family: var(--body);
+    letter-spacing: 0.02em;
+  }
+  .bottom-nav a .nav-icon { font-size: 18px; line-height: 1; }
+  .bottom-nav a.active {
+    color: var(--blue);
+  }
+  .bottom-nav a.active .nav-icon {
+    color: var(--blue);
+  }
+  .bottom-nav a:hover { color: var(--text-primary); }
+
+  /* ===== SCROLL ANIMATION ===== */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  [data-reveal].in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 500px) {
+    body { padding: 0; background: var(--bg-secondary); }
+    .phone-container {
+      max-width: 100%;
+      border-radius: 0;
+      border: none;
+      box-shadow: none;
+    }
+    .phone-content { padding: 0 16px 90px; max-height: 100vh; }
+    .status-bar { padding: 10px 16px 4px; }
+    .bottom-nav { margin: 0 -16px; border-radius: 0; }
+    .comp-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .stack-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .project-card { padding: 12px 14px; }
+  }
+
+  @media (max-width: 380px) {
+    .comp-grid { grid-template-columns: 1fr; }
+    .stack-grid { grid-template-columns: 1fr 1fr; }
+    .profile-card h1 { font-size: 20px; }
+    .btn { font-size: 12px; padding: 9px 16px; }
+    .chip { font-size: 10px; padding: 4px 10px; }
+  }
+
+  @media (min-width: 501px) and (max-width: 520px) {
+    .phone-container { border-radius: var(--radius); border: 1px solid var(--border); }
+  }
+
+  /* ===== TOAST NOTIFICATION ===== */
+  .toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 24px;
+    color: var(--text-primary);
+    font-size: 13px;
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow);
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateX(-50%) translateY(20px);
+    pointer-events: none;
+    z-index: 999;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+/* Pastikan kontainer kartunya punya padding agar foto tidak menempel ke pinggir */
+.cert-card {
+  padding: 15px; /* Atau sesuaikan dengan desain Anda */
+  /* ... properti kartu lainnya ... */
+}
+
+/* Mengatur bingkai foto */
+.cert-image-container {
+  width: 100%; /* Memenuhi lebar dalam kartu */
+  max-height: 200px; /* <--- UBAH INI untuk mengatur tinggi maksimal foto (lebih kecil) */
+  overflow: hidden; /* Memotong bagian foto yang lewat batas */
+  border-radius: 8px; /* Sudut melengkung */
+  margin-bottom: 15px; /* Jarak ke teks di bawahnya */
+  display: flex;
+  justify-content: center; /* Memastikan foto di tengah */
+  align-items: center;
+  background-color: #f0f0f0; /* Warna latar jika foto transparan/kekecilan */
+}
+
+/* Mengatur properti foto di dalamnya */
+.cert-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* <--- ATAU gunakan 'cover' jika ingin foto memenuhi bingkai penuh */
+  display: block;
+}
+
+.avatar .inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden; /* Memotong bagian foto yang berbentuk kotak agar jadi bulat */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none; /* Menghilangkan background warna bawaan teks IF */
+}
+
+.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Menjaga proporsi foto agar tidak gepeng/kempot */
+  display: block;
+}
+
+</style>
+</head>
+<body>
+
+<div class="phone-container">
+
+  <!-- ===== STATUS BAR ===== -->
+  <div class="status-bar">
+    <span class="time" id="statusTime">09:41</span>
+    <div class="status-icons">
+      <div class="signal-bars">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="battery">
+        <div class="battery-bar"><div class="fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== NOTCH ===== -->
+  <div class="notch"><div class="pill"></div></div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="phone-content">
+
+    <!-- HOME / PROFILE -->
+    <section class="section" id="home">
+  <div class="profile-card" data-reveal>
+    <div class="avatar">
+      <div class="inner">
+        <!-- Ganti me.jpg dengan nama file foto profil kamu -->
+        <img src="tamvan.jpeg" alt="Irsyad Farras Al Farisyi" class="profile-img">
+      </div>
+    </div>
+        <h1>Irsyad <span class="highlight">Farras</span></h1>
+        <h1 style="font-size:20px; margin-top:-2px;">Al Farisyi</h1>
+        <div class="role"><span class="dot">●</span> Full Stack Developer &amp; Cyber Security Enthusiast</div>
+        <p class="bio">
+          Mahasiswa Teknik Informatika dengan latar belakang Computer Network &amp; Telecommunication Engineering. 
+          Berfokus pada pengembangan aplikasi web yang cepat, andal, dan aman melalui integrasi keahlian 
+          Front-End Development dengan pola pikir Cyber Security di setiap baris kode guna menciptakan 
+          pengalaman digital yang optimal.
+        </p>
+        <div class="chip-row">
+          <span class="chip">React</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">Node.js</span>
+          <span class="chip">Tailwind</span>
+          <span class="chip">Network Security</span>
+        </div>
+        <div class="badge-row">
+          <span class="badge-pill live">System Online</span>
+          <span class="badge-pill">Portfolio 2026</span>
+          <span class="badge-pill">Cyber Security Ready</span>
+        </div>
+        <div class="cta-row">
+          <a href="#portfolio" class="btn btn-primary">Projects ↗</a>
+          <a href="#contact" class="btn btn-ghost">Contact ✉</a>
+        </div>
+        <div class="social-row">
+          <a class="social-btn" href="https://github.com/irsyadfarras" aria-label="GitHub">
+            <svg viewBox="0 0 24 24"><path d="M12 .5C5.73.5.98 5.24.98 11.52c0 4.94 3.2 9.13 7.65 10.6.56.1.76-.24.76-.54v-1.9c-3.11.68-3.77-1.5-3.77-1.5-.5-1.3-1.24-1.64-1.24-1.64-1.02-.7.08-.69.08-.69 1.12.08 1.72 1.16 1.72 1.16 1 1.7 2.63 1.22 3.27.93.1-.72.39-1.22.71-1.5-2.49-.29-5.1-1.25-5.1-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.44.11-3 0 0 .95-.31 3.1 1.15A10.8 10.8 0 0 1 12 5.8c.96 0 1.92.13 2.82.38 2.15-1.46 3.1-1.15 3.1-1.15.61 1.56.23 2.72.11 3 .72.79 1.16 1.79 1.16 3.02 0 4.32-2.62 5.27-5.11 5.55.4.35.76 1.03.76 2.08v3.09c0 .3.2.65.77.54A11.03 11.03 0 0 0 23.02 11.5C23.02 5.24 18.27.5 12 .5Z"/></svg>
+          </a>
+          <a class="social-btn" href="https://www.linkedin.com/in/irsyad-farras-al-farisyi-5ba1913a5" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.86 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0Z"/></svg>
+          </a>
+          <a class="social-btn" href="https://www.instagram.com/irsyadfarras/" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.73 3.73 0 0 1-1.38-.9 3.73 3.73 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16Zm0 5.62a4.22 4.22 0 1 0 0 8.44 4.22 4.22 0 0 0 0-8.44Zm0 6.96a2.74 2.74 0 1 1 0-5.48 2.74 2.74 0 0 1 0 5.48Zm5.38-7.13a.99.99 0 1 1-1.98 0 .99.99 0 0 1 1.98 0Z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- ===== CONSOLE CARD (seperti di gambar) ===== -->
+      <div class="console-card" data-reveal>
+        <div class="console-top">
+          <span class="online">System Online</span>
+          <span>IT CORE</span>
+        </div>
+        <div class="console-screen">
+          <div><span class="dim">$</span> build /portfolio <span class="ok">— ok</span></div>
+          <div class="bar-mini"><i style="width:92%"></i></div>
+          <div style="margin-top:8px;"><span class="dim">$</span> scan --threats</div>
+          <div class="bar-mini"><i style="width:100%"></i></div>
+          <div style="margin-top:8px;"><span class="dim">$</span> encryption <span class="ok">AES-256 active</span></div>
+          <div class="bar-mini"><i style="width:80%"></i></div>
+        </div>
+        <div class="console-footer">
+          <div class="console-mini"><div class="k">Modules</div><div class="v">06 Loaded</div></div>
+          <div class="console-mini"><div class="k">Latency</div><div class="v">12ms</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CORE COMPETENCIES -->
+    <section class="section" id="competencies" data-reveal>
+      <div class="eyebrow">Core Competencies</div>
+      <div class="comp-grid">
+        <div class="comp-card"><div class="icon">⚛</div><div class="label">Front-End</div><div class="desc">React, Tailwind, JS</div></div>
+        <div class="comp-card"><div class="icon">⬢</div><div class="label">Back-End</div><div class="desc">Node.js, MySQL, API</div></div>
+        <div class="comp-card"><div class="icon">🛡</div><div class="label">Cyber Security</div><div class="desc">Network, Kali, Nmap</div></div>
+        <div class="comp-card"><div class="icon">🎨</div><div class="label">UI/UX Design</div><div class="desc">Figma, Prototyping</div></div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section class="section" id="portfolio" data-reveal>
+      <div class="eyebrow">Portfolio</div>
+      <h2 class="sec-title">Proyek <span class="accent">Unggulan</span></h2>
+      <p class="sec-sub">Beberapa proyek yang telah saya kerjakan — dari web development hingga keamanan jaringan.</p>
+
+      <div class="project-grid">
+        <div class="project-card">
+          <span class="tag">● LIVE</span>
+          <h4>Company Profile — Prima Teknik</h4>
+          <p>Website profil perusahaan jasa teknik dengan katalog layanan dan form kontak.</p>
+          <div class="project-stack"><span>React</span><span>Tailwind</span><span>Node.js</span></div>
+        </div>
+        <div class="project-card">
+          <span class="tag">● LIVE</span>
+          <h4>Liburan Kita — Travel Planner</h4>
+          <p>Platform perencanaan liburan kolaboratif dengan rekomendasi destinasi.</p>
+          <div class="project-stack"><span>JavaScript</span><span>Node.js</span><span>MongoDB</span></div>
+        </div>
+        <div class="project-card">
+          <span class="tag security">● SECURITY</span>
+          <h4>Network Vulnerability Scanner</h4>
+          <p>Dashboard monitoring pemindaian celah keamanan jaringan dengan visualisasi risiko.</p>
+          <div class="project-stack"><span>Python</span><span>Nmap</span><span>Flask</span></div>
+        </div>
+        <div class="project-card">
+          <span class="tag">● LIVE</span>
+          <h4>Kedai Kopi Senja — Company Profile</h4>
+          <p>Landing page kedai kopi dengan menu interaktif dan sistem pre-order.</p>
+          <div class="project-stack"><span>React</span><span>Tailwind</span></div>
+        </div>
+        <div class="project-card">
+          <span class="tag security">● SECURITY</span>
+          <h4>Firewall &amp; Traffic Monitor</h4>
+          <p>Pemantauan lalu lintas jaringan real-time dengan notifikasi aktivitas mencurigakan.</p>
+          <div class="project-stack"><span>Python</span><span>Wireshark</span><span>Linux</span></div>
+        </div>
+        <div class="project-card">
+          <span class="tag">● LIVE</span>
+          <h4>Warehouse Inventory System</h4>
+          <p>Manajemen stok barang gudang dengan laporan otomatis dan autentikasi multi-role.</p>
+          <div class="project-stack"><span>React</span><span>Node.js</span><span>MySQL</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATES dengan UPLOAD FOTO -->
+    <section class="section" id="certificates" data-reveal>
+      <div class="eyebrow">Sertifikat</div>
+      <h2 class="sec-title">Sertifikasi &amp; <span class="accent">Pelatihan</span></h2>
+      <p class="sec-sub">Klik area di bawah untuk upload foto sertifikat kamu.</p>
+
+      <div class="cert-list" id="certList">
+        <!-- Sertifikat 1 -->
+        <div class="cert-card">
+  <!-- Tempat untuk menaruh foto sertifikat seminar CTF -->
+  <div class="cert-image-container">
+    <img src="farras.png" alt="Sertifikat Seminar Digital Evidence Hunting" class="cert-photo">
+  </div>
+  
+  <div class="cert-details">
+    <div class="cert-icon">🔍</div> <!-- Menggunakan ikon kaca pembesar karena bertema Forensik/Hunting -->
+    <div>
+      <h4>Digital Evidence Hunting: Seni Strategi dalam CTF Forensik</h4>
+      <div class="issuer">Nurul Fikri Student Cybersecurity Community & ASTRO</div>
+      <div class="year">2025</div>
+    </div>
+  </div>
+</div>
+        <!-- Sertifikat 2 -->
+        <div class="cert-card">
+  <!-- Tempat untuk menaruh foto sertifikat Privilege Escalation -->
+  <div class="cert-image-container">
+    <img src="icad.png" alt="Sertifikat Mini Workshop Privilege Escalation" class="cert-photo">
+  </div>
+  
+  <div class="cert-details">
+    <div class="cert-icon">🐧</div> <!-- Menggunakan ikon penguin karena diselenggarakan bersama Linuxenic Corp -->
+    <div>
+      <h4>Mini Workshop "Privilege Escalation: Taking Control of The System"</h4>
+      <div class="issuer">NFCC & LINUXENIC CORP.</div>
+      <div class="year">2026</div>
+    </div>
+  </div>
+</div>
+        <!-- Sertifikat 3 (tambahan) -->
+       <div class="cert-card">
+  <!-- Tempat untuk menaruh foto sertifikat NFSCC -->
+  <div class="cert-image-container">
+    <img src="irsyad.png" alt="Sertifikat Red Team vs Blue Team NFSCC" class="cert-photo">
+  </div>
+  
+  <div class="cert-details">
+    <div class="cert-icon">🛡️</div> <!-- Menggunakan ikon perisai karena bertema Cyber Security -->
+    <div>
+      <h4>Red Team vs Blue Team: From Attacker to Defender</h4>
+      <div class="issuer">NFSCC (Nurul Fikri Cyber Security Club)</div>
+      <div class="year">2026</div> <!-- Tahun berjalan saat ini -->
+    </div>
+  </div>
+</div>
+          <!-- Sertifikat 4 (tambahan) -->
+       <div class="cert-card">
+  <!-- Tempat untuk menaruh foto sertifikat Speak-Up Academy -->
+  <div class="cert-image-container">
+    <img src="ISAD.png" alt="Sertifikat Basic Public Speaking Speak-Up Academy Hub" class="cert-photo">
+  </div>
+  
+  <div class="cert-details">
+    <div class="cert-icon">🎤</div> <!-- Menggunakan ikon mikrofon karena bertema Public Speaking / Speak Up -->
+    <div>
+      <h4>Anti Blank dan Belibet: Rahasia Bicara Percaya Dari Tanpa Gugup</h4>
+      <div class="issuer">Speak-Up Academy Hub</div>
+      <div class="year">2026</div>
+    </div>
+  </div>
+</div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section class="section" data-reveal>
+      <div class="eyebrow">Tech Stack</div>
+      <div class="stack-group-title">Development</div>
+      <div class="stack-grid">
+        <div class="stack-card"><div class="ic">⚛</div><div class="nm">React</div><div class="lv">Intermediate</div></div>
+        <div class="stack-card"><div class="ic">JS</div><div class="nm">JavaScript</div><div class="lv">Advanced</div></div>
+        <div class="stack-card"><div class="ic">⬢</div><div class="nm">Node.js</div><div class="lv">Intermediate</div></div>
+        <div class="stack-card"><div class="ic">🎨</div><div class="nm">Tailwind</div><div class="lv">Advanced</div></div>
+        <div class="stack-card"><div class="ic">🐍</div><div class="nm">Python</div><div class="lv">Intermediate</div></div>
+        <div class="stack-card"><div class="ic">🐘</div><div class="nm">MySQL</div><div class="lv">Intermediate</div></div>
+      </div>
+      <div class="stack-group-title">Cyber Security</div>
+      <div class="stack-grid">
+        <div class="stack-card"><div class="ic">🛡</div><div class="nm">Kali Linux</div><div class="lv">Familiar</div></div>
+        <div class="stack-card"><div class="ic">🕸</div><div class="nm">Wireshark</div><div class="lv">Familiar</div></div>
+        <div class="stack-card"><div class="ic">🔍</div><div class="nm">Nmap</div><div class="lv">Familiar</div></div>
+        <div class="stack-card"><div class="ic">🔐</div><div class="nm">Network Security</div><div class="lv">Intermediate</div></div>
+        <div class="stack-card"><div class="ic">🧩</div><div class="nm">Burp Suite</div><div class="lv">Basic</div></div>
+      </div>
+      <div class="stack-group-title">Design &amp; Tools</div>
+      <div class="stack-grid">
+        <div class="stack-card"><div class="ic">✏</div><div class="nm">Figma</div><div class="lv">Intermediate</div></div>
+        <div class="stack-card"><div class="ic">🎬</div><div class="nm">Premiere Pro</div><div class="lv">Intermediate</div></div>
+        <div class="stack-card"><div class="ic">🖼</div><div class="nm">Photoshop</div><div class="lv">Intermediate</div></div>
+        <div class="stack-card"><div class="ic">🐙</div><div class="nm">Git &amp; GitHub</div><div class="lv">Advanced</div></div>
+        <div class="stack-card"><div class="ic">🐧</div><div class="nm">Linux</div><div class="lv">Intermediate</div></div>
+        <div class="stack-card"><div class="ic">📐</div><div class="nm">Illustrator</div><div class="lv">Intermediate</div></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact" data-reveal>
+      <div class="eyebrow">Kontak</div>
+      <h2 class="sec-title">Get In <span class="accent">Touch</span></h2>
+      <p class="sec-sub">Punya proyek atau ingin berkolaborasi? Kirim pesan, saya akan balas secepatnya.</p>
+
+      <div class="contact-card">
+        <div class="contact-row">
+          <div class="ic">✉</div>
+          <div><div class="lbl">Email</div><div class="val">0110225116@student.nurulfikri.ac.id</div></div>
+        </div>
+        <div class="contact-row">
+          <div class="ic">🌐</div>
+          <div><div class="lbl">Website</div><div class="val">www.irsyadfarras.my.id</div></div>
+        </div>
+        <div class="contact-row">
+          <div class="ic">☎️</div>
+          <div><div class="lbl">WhatsApp</div><div class="val">+62858****5439</div></div>
+        </div>
+        <div class="contact-row">
+          <div class="ic">📍</div>
+          <div><div class="lbl">Lokasi</div><div class="val">Indonesia, Jawa Barat</div></div>
+        </div>
+        <div class="status-text"><span class="status-dot"></span> Tersedia untuk freelance &amp; kolaborasi</div>
+      </div>
+
+
+    <!-- FOOTER -->
+    <div style="padding:16px 0 8px; text-align:center; border-top:1px solid var(--border); margin-top:8px;">
+      <p style="font-size:11px; color:var(--text-muted);">© 2026 Irsyad Farras Al Farisyi</p>
+      <p style="font-size:9px; color:var(--text-muted); font-family:var(--mono); letter-spacing:0.04em;">Built with HTML, CSS &amp; JavaScript</p>
+    </div>
+
+  </div><!-- /phone-content -->
+
+  <!-- ===== BOTTOM NAV ===== -->
+  <div class="bottom-nav">
+    <a href="#home" class="active"><span class="nav-icon">🏠</span>Beranda</a>
+    <a href="#portfolio"><span class="nav-icon">📁</span>Proyek</a>
+    <a href="#certificates"><span class="nav-icon">🏅</span>Sertifikat</a>
+    <a href="#contact"><span class="nav-icon">✉</span>Kontak</a>
+  </div>
+
+</div><!-- /phone-container -->
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ===== STATUS BAR TIME =====
+  function updateTime() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('statusTime').textContent = h + ':' + m;
+  }
+  updateTime();
+  setInterval(updateTime, 30000);
+
+  // ===== BOTTOM NAV ACTIVE =====
+  const navLinks = document.querySelectorAll('.bottom-nav a');
+  const sections = document.querySelectorAll('.section');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // ===== REVEAL ON SCROLL =====
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const revealIo = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('in');
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => revealIo.observe(el));
+
+  // ===== CERTIFICATE UPLOAD =====
+  const uploadInput = document.getElementById('certUpload');
+  const certIcons = [
+    document.getElementById('certIcon1'),
+    document.getElementById('certIcon2'),
+    document.getElementById('certIcon3')
+  ];
+  let uploadIndex = 0;
+
+  uploadInput.addEventListener('change', function(e) {
+    const files = Array.from(e.target.files);
+    const toast = document.getElementById('toast');
+
+    files.forEach((file, idx) => {
+      if (uploadIndex >= certIcons.length) {
+        toast.textContent = '⚠️ Semua sertifikat sudah memiliki foto!';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const img = document.createElement('img');
+        img.src = ev.target.result;
+        img.alt = 'Sertifikat';
+        const iconEl = certIcons[uploadIndex];
+        iconEl.innerHTML = '';
+        iconEl.appendChild(img);
+        uploadIndex++;
+
+        toast.textContent = '✅ Foto sertifikat berhasil diupload!';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Reset input agar bisa upload ulang
+    uploadInput.value = '';
+  });
+
+  // Klik area upload untuk trigger file input
+  document.getElementById('uploadArea').addEventListener('click', function() {
+    uploadInput.click();
+  });
+
+  // ===== CONTACT FORM =====
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('cName').value;
+    const email = document.getElementById('cEmail').value;
+    const subject = document.getElementById('cSubject').value || 'Pesan dari Portfolio';
+    const message = document.getElementById('cMessage').value;
+    const body = `Nama: ${name}\nEmail: ${email}\n\n${message}`;
+    window.location.href = `mailto:hello@irsyadfarras.my.id?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+
+  // ===== SMOOTH SCROLL FOR NAV =====
+  document.querySelectorAll('.bottom-nav a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const container = document.querySelector('.phone-content');
+        const offset = target.offsetTop - 20;
+        container.scrollTo({ top: offset, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
